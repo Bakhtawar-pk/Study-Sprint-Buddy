@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Message, Buddy, AppStage } from '../types';
-import { Send, Sparkles } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 
 interface ChatInterfaceProps {
   messages: Message[];
@@ -44,18 +44,18 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ messages, onSendMessage, 
       <div className="p-4 border-b border-white/20 flex items-center space-x-4 bg-white/40">
         <div className="relative group cursor-pointer">
           <div className="w-12 h-12 rounded-full p-0.5 bg-gradient-to-tr from-indigo-500 to-pink-500 shadow-lg group-hover:scale-105 transition-transform">
-            <div className="w-full h-full rounded-full border-2 border-white overflow-hidden">
+            <div className="w-full h-full rounded-full border-2 border-white overflow-hidden bg-white">
                 <img src={buddy.avatarUrl} alt={buddy.name} className="w-full h-full object-cover" />
             </div>
           </div>
-          <div className="absolute bottom-0 right-0 w-3.5 h-3.5 bg-green-400 border-2 border-white rounded-full animate-pulse"></div>
+          <div className="absolute -bottom-1 -right-1 text-lg drop-shadow-md">🟢</div>
         </div>
         <div>
           <h3 className="font-bold text-slate-800 text-lg flex items-center gap-2">
-            {buddy.name} <Sparkles size={14} className="text-yellow-500" />
+            {buddy.name} <span className="text-xl">👋</span>
           </h3>
           <p className="text-xs text-slate-500 font-medium tracking-wide uppercase">
-            {stage === AppStage.SPRINTING ? 'Focus Mode On' : 'Active Buddy'}
+            {stage === AppStage.SPRINTING ? '👀 Watching you...' : '⚡ Online'}
           </p>
         </div>
       </div>
@@ -67,13 +67,8 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ messages, onSendMessage, 
             key={msg.id}
             className={`flex w-full ${msg.sender === 'user' ? 'justify-end' : 'justify-start'} animate-pop-in`}
           >
-            <div className={`flex flex-col max-w-[80%] ${msg.sender === 'user' ? 'items-end' : 'items-start'}`}>
+            <div className={`flex flex-col max-w-[85%] ${msg.sender === 'user' ? 'items-end' : 'items-start'}`}>
               
-              {/* Sender Name (Tiny) */}
-              {msg.sender !== 'user' && msg.sender !== 'system' && (
-                  <span className="text-[10px] text-slate-400 mb-1 ml-2">{buddy.name}</span>
-              )}
-
               <div
                 className={`relative px-5 py-3 text-sm leading-relaxed shadow-sm transform transition-all hover:scale-[1.02] ${
                   msg.sender === 'user'
@@ -90,12 +85,8 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ messages, onSendMessage, 
         ))}
         
         {isSending && (
-           <div className="flex justify-start w-full animate-pulse">
-              <div className="bg-white px-4 py-3 rounded-2xl rounded-tl-sm shadow-sm border border-slate-100 flex gap-1">
-                 <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce"></div>
-                 <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce delay-75"></div>
-                 <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce delay-150"></div>
-              </div>
+           <div className="flex justify-start w-full animate-pulse pl-2">
+              <span className="text-2xl">💬</span>
            </div>
         )}
       </div>
@@ -106,7 +97,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ messages, onSendMessage, 
           <input
             type="text"
             className="flex-1 bg-transparent border-none outline-none text-sm text-slate-700 placeholder:text-slate-400 px-3"
-            placeholder="Type a message..."
+            placeholder="Say something..."
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
@@ -115,9 +106,9 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ messages, onSendMessage, 
           <button
             onClick={handleSend}
             disabled={!input.trim() || isSending}
-            className="p-2.5 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:rotate-12"
+            className="w-10 h-10 flex items-center justify-center bg-indigo-600 text-white rounded-full hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:scale-110 active:scale-95"
           >
-            <Send size={16} fill="white" />
+            <span className="text-lg">🚀</span>
           </button>
         </div>
       </div>
